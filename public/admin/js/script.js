@@ -12,7 +12,7 @@ if(buttonsStatus.length > 0) {
                 url.searchParams.delete("status");
             }
             window.location.href = url.href; //Chuyển hướng url
-        })
+        });
     });
 }
 // End Button status
