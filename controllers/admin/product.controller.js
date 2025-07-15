@@ -114,3 +114,65 @@ module.exports.deleteItem = async (req, res) => {
     const backURL = req.get("Referer");
     res.redirect(backURL);
 }
+
+
+//[PATCH] /admin/products/trash/:id
+module.exports.trashProduct = async (req, res) => {
+
+    let find = {
+        deleted: true
+    };
+
+    const objectSearch = searchHelper(req.query);
+
+    if(objectSearch.regex) {
+        find.title = objectSearch.regex;
+    }
+
+
+    // pagination
+    const countProducts = await Product.countDocuments(find);
+    let objectPagination = paginationHelper(
+        {
+            currentPage: 1,
+            limitItem: 4
+        },
+        req.query,
+        countProducts
+    );
+    // End pagination
+
+    const products = await Product.find(find).sort({ position: "desc" }).limit(objectPagination.limitItem).skip(objectPagination.skip);
+    
+    res.render("admin/pages/products/trash-product", {
+        pageTitle: "Danh sách sản phẩm đã xóa",
+        products: products,
+        keyword: objectSearch.keyword,
+        pagination: objectPagination
+    });
+}
+
+module.exports.restoreItem = async (req, res) => {
+    const id = req.params.id;    
+    await Product.updateOne({ _id: id}, {
+        deleted: false,
+        $unset: { deletedAt: "" } //Xóa cột 
+    });
+    req.flash("success", `Đã khôi phục thành công sản phẩm!`);
+    const backURL = req.get("Referer");
+    res.redirect(backURL);
+} 
+
+//[PATCH] /admin/products/restore-multi
+module.exports.restoreMulti = async (req, res) => {
+    const ids = req.body.ids.split(", ");
+    for(const id of ids) {
+        await Product.updateOne({ _id: id }, {
+            deleted: false,
+            $unset: { deletedAt: "" }
+        });
+    }
+    req.flash("success", `Đã khôi phục thành công ${ids.length} sản phẩm!`);
+    const backURL = req.get("Referer");
+    res.redirect(backURL);
+}

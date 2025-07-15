@@ -7,5 +7,8 @@ router.get("/", controller.index);
 router.patch("/change-status/:status/:id", controller.changeStatus);
 router.patch("/change-multi", controller.changeMulti);
 router.delete("/delete/:id", controller.deleteItem);
+router.get("/trash", controller.trashProduct);
+router.patch("/restore/:id", controller.restoreItem);
+router.patch("/restore-multi", controller.restoreMulti);
 
 module.exports = router;
