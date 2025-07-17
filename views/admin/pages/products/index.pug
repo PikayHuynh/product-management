@@ -8,7 +8,7 @@ include ../../mixins/alert
 block main
     h1 Danh sách sản phẩm
     +alert-success("5000")
-
+    +alert-error("5000")
     .card.mb-3
         .card-header Bộ lọc và Tìm kiếm
         .card-body
@@ -89,7 +89,10 @@ block main
                                         class="badge text-bg-danger"
                                     ) Dừng hoạt động
                             td
-                                button(class="btn btn-warning btn-sm") Sửa
+                                a(
+                                    href=`${prefixAdmin}/products/edit/${item.id}`
+                                    class="btn btn-warning btn-sm"
+                                ) Sửa
                                 button(
                                     class="btn btn-danger btn-sm me-1"
                                     button-delete
