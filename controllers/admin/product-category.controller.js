@@ -39,3 +39,12 @@ module.exports.createPost = async (req, res) => {
   res.redirect(`${systemConfig.prefixAdmin}/products-category`);
 };
 
+//[PATCH] /admin/products-category/change-status/:status/:id
+module.exports.changeStatus = async (req, res) => {
+  const status = req.params.status;
+  const id = req.params.id;
+  await ProductCategory.updateOne({ _id: id }, { status: status });
+  req.flash("success", "Trạng thái danh mục của sản phẩm đã được cập nhật.");
+  const backURL = req.get("Referer");
+  res.redirect(backURL);
+}

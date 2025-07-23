@@ -86,3 +86,13 @@ block main
                   button-delete
                   data-id=item.id
                 ) Xóa
+
+
+
+  form(
+    action=""
+    method="POST"
+    id="form-change-status"
+    data-path=`${prefixAdmin}/products-category/change-status`
+  ) 
+  script(src="/admin/js/product-category.js") 
