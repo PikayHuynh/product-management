@@ -31,7 +31,7 @@ module.exports.index = async (req, res) => {
   let objectPagination = paginationHelper(
     {
       currentPage: 1,
-      limitItem: 4,
+      limitItems: 4,
     },
     req.query,
     countProducts
@@ -47,7 +47,7 @@ module.exports.index = async (req, res) => {
   } 
   // End Sort
 
-  const products = await Product.find(find).sort(sort).limit(objectPagination.limitItem).skip(objectPagination.skip);
+  const products = await Product.find(find).sort(sort).limit(objectPagination.limitItems).skip(objectPagination.skip);
 
   res.render("admin/pages/products/index", {
     pageTitle: "Danh sách sản phẩm",
@@ -144,14 +144,14 @@ module.exports.trashProduct = async (req, res) => {
   let objectPagination = paginationHelper(
     {
       currentPage: 1,
-      limitItem: 4,
+      limitItems: 4,
     },
     req.query,
     countProducts
   );
   // End pagination
 
-  const products = await Product.find(find).sort({ position: "desc" }).limit(objectPagination.limitItem).skip(objectPagination.skip);
+  const products = await Product.find(find).sort({ position: "desc" }).limit(objectPagination.limitItems).skip(objectPagination.skip);
 
   res.render("admin/pages/products/trash", {
     pageTitle: "Danh sách sản phẩm đã xóa",

@@ -2,7 +2,6 @@ extends ../../layouts/default.pug
 include ../../mixins/alert
 include ../../mixins/search
 include ../../mixins/filter-status
-//- include ../../mixins/pagination
 include ../../mixins/form-change-multi
 include ../../mixins/table-tree
 
@@ -70,7 +69,6 @@ block main
         tbody
           +table-tree(records)
 
-  //- +pagination(pagination)
 
 
   form(
