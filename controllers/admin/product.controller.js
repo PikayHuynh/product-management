@@ -176,7 +176,7 @@ module.exports.restoreItem = async (req, res) => {
   res.redirect(backURL);
 };
 
-//[PATCH] /admin/products/restore-multi
+//[PATCH] /admin/products/trash/restore-multi
 module.exports.restoreMulti = async (req, res) => {
   const ids = req.body.ids.split(", ");
   for (const id of ids) {

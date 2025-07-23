@@ -17,6 +17,8 @@ if(buttonsChangeStatus.length > 0) {
   });
 }
 //End Change Status
+
+// Delete item 
 const buttonsDelete = document.querySelectorAll("[button-delete]");
 if(buttonsDelete.length > 0) {
   const formDeleteItem = document.querySelector("#form-delete-item");
@@ -33,8 +35,6 @@ if(buttonsDelete.length > 0) {
     });
   });
 }
-// Delete item 
-
 // End Delete item 
 
 

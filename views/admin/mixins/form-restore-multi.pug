@@ -1,0 +1,14 @@
+mixin form-restore-multi(path)
+  form(
+    action=path
+    method="POST"
+    form-restore-multi
+  )
+    .form-group
+      input(
+        type="text"
+        name="ids"
+        value=""
+        class="form-control d-none"
+      )
+    button(type="submit" class="btn btn-primary") Khôi phục tất cả

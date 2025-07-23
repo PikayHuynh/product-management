@@ -28,4 +28,10 @@ router.patch("/change-multi", controller.changeMulti);
 
 router.delete("/delete/:id", controller.deleteItem);
 
+router.get("/trash", controller.trashProductCategory);
+
+router.patch("/restore/:id", controller.restoreItem);
+
+router.patch("/restore-multi", controller.restoreMulti);
+
 module.exports = router;

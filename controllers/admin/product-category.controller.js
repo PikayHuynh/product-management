@@ -36,7 +36,16 @@ module.exports.index = async (req, res) => {
   );
   // End pagination
 
-  const records = await ProductCategory.find(find).limit(objectPagination.limitItem).skip(objectPagination.skip);
+  // Sort
+  let sort = {};
+  if(req.query.sortKey && req.query.sortValue) {
+    sort[req.query.sortKey] = req.query.sortValue;
+  } else {
+    sort.position = "desc";
+  } 
+  // End Sort
+
+  const records = await ProductCategory.find(find).sort(sort).limit(objectPagination.limitItem).skip(objectPagination.skip);
 
   res.render("admin/pages/products-category/index", {
     pageTitle: "Danh mục sản phẩm",
@@ -93,7 +102,7 @@ module.exports.changeMulti = async (req, res) => {
       await ProductCategory.updateMany({ _id: {$in : ids} }, { status: type });
       req.flash("success", `Trạng thái của ${ids.length} danh mục sản phẩm đã được cập nhật.`);
       break;
-    case "deleted-all":
+    case "delete-all":
       await ProductCategory.updateMany(
         { _id: { $in: ids} },
         {
@@ -126,6 +135,66 @@ module.exports.deleteItem = async (req, res) => {
     deletedAt: new Date()
   });
   req.flash("success", "Đã xóa thành công danh mục sản phẩm");
+  const backURL = req.get("Referer");
+  res.redirect(backURL);
+}
+
+//[GET] /admin/products-category/trash
+module.exports.trashProductCategory = async (req, res) => {
+  let find = {
+    deleted: true
+  };
+
+  const objectSearch = searchHelper(req.query);
+  if(objectSearch.regex) {
+    find.title = objectSearch.regex;
+  }
+
+  const count = await ProductCategory.countDocuments();
+  let objectPagination = paginationHelper(
+    {
+      currentPage: 1,
+      limitItem: 4
+    },
+    req.query,
+    count
+  );
+
+  const records = await ProductCategory.find(find).sort({ position: "desc" }).limit(objectPagination.limitItem).skip(objectPagination.skip);
+  
+  res.render("admin/pages/products-category/trash", {
+    pageTitle: "Danh mục sản phẩm bị xóa",
+    pagination: objectPagination,
+    keyword: objectSearch.keyword,
+    records: records
+  });
+};
+
+//[PATCH] /admin/products-category/trash/:id
+module.exports.restoreItem = async (req, res) => {
+  const id = req.params.id;
+  await ProductCategory.updateOne(
+    { _id: id },
+    {
+      deleted: false,
+      $unset: { deletedAt: "" }, //Xóa cột
+    }
+  );
+  req.flash("success", `Đã khôi phục thành công danh mục sản phẩm!`);
+  const backURL = req.get("Referer");
+  res.redirect(backURL);
+};
+
+//[PATCH] /admin/products-category/trash/restore-multi
+module.exports.restoreMulti = async (req, res) => {
+  const ids = req.body.ids.split(", ");
+  for(const id of ids) {
+    await ProductCategory.updateOne({ _id: id }, {
+      deleted: false,
+      $unset: { deletedAt: "" }
+    });
+  }
+  req.flash("success", `Đã khôi phục thành công ${ids.length} danh mục sản phẩm`);
   const backURL = req.get("Referer");
   res.redirect(backURL);
 }
