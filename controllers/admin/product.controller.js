@@ -100,8 +100,7 @@ module.exports.changeMulti = async (req, res) => {
         let [id, position] = item.split("-");
         position = parseInt(position);
         await Product.updateOne({ _id: id }, { position: position });
-        req.flash("success", `Vị trí của ${ids.length} sản phẩm đã được cập nhật thành công.`
-        );
+        req.flash("success", `Vị trí của ${ids.length} sản phẩm đã được cập nhật thành công.`);
       }
       break;
     default:
