@@ -149,7 +149,7 @@ module.exports.trashProductCategory = async (req, res) => {
     find.title = objectSearch.regex;
   }
 
-  const count = await ProductCategory.countDocuments();
+  const count = await ProductCategory.countDocuments(find);
   let objectPagination = paginationHelper(
     {
       currentPage: 1,
@@ -160,7 +160,9 @@ module.exports.trashProductCategory = async (req, res) => {
   );
 
   const records = await ProductCategory.find(find).sort({ position: "desc" }).limit(objectPagination.limitItems).skip(objectPagination.skip);
-  
+
+
+
   res.render("admin/pages/products-category/trash", {
     pageTitle: "Danh mục sản phẩm bị xóa",
     pagination: objectPagination,
