@@ -1,10 +1,32 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
+include ../../mixins/sort.pug
+include ../../mixins/search.pug
 
 block main
   h1(class="mb-4") Nhóm quyền
   +alert-success(5000)
   +alert-error(5000)
+  .card.mb-3
+    .card-header Sắp xếp và Tìm kiếm
+    .card-body
+      .row
+        .col-6
+          div(sort)
+            select(
+              name="sort"
+              class="form-select"
+              sort-select
+            )
+              option(value="title-asc") Tiêu đề A - Z
+              option(value="title-desc") Tiêu đề Z - A
+            button(
+              class="btn btn-danger mt-2"
+              sort-clear
+            ) Clear
+        .col-6 
+          +search(keyword)
+
   .card.mb-3
     .card-header Danh sách
     .card-body

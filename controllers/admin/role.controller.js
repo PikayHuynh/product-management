@@ -1,8 +1,8 @@
 const Role = require("../../models/role.model");
 
 const systemConfig = require("../../config/system");
-const { model } = require("mongoose");
-const { tree } = require("../../helpers/createTree");
+
+const searchHelper = require("../../helpers/search");
 
 //[GET] /admin/roles
 module.exports.index = async (req, res) => {
@@ -10,10 +10,23 @@ module.exports.index = async (req, res) => {
     deleted: false
   };
 
-  const records = await Role.find(find);
+  const objectSearch = searchHelper(req.query);
+  if(objectSearch.regex) {
+    find.title = objectSearch.regex;
+  }
+
+  let sort = {};
+  if(req.query.sortKey && req.query.sortValue) {
+    sort[req.query.sortKey] = req.query.sortValue;
+  } else {
+    sort.title = "asc";
+  } 
+
+  const records = await Role.find(find).sort(sort);
   res.render("admin/pages/roles/index", {
     pageTitle: "Trang nhóm quyền",
-    records: records
+    records: records,
+    keyword: objectSearch.keyword
   });
 };
 
