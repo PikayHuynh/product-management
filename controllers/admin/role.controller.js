@@ -1,6 +1,8 @@
 const Role = require("../../models/role.model");
 
 const systemConfig = require("../../config/system");
+const { model } = require("mongoose");
+const { tree } = require("../../helpers/createTree");
 
 //[GET] /admin/roles
 module.exports.index = async (req, res) => {
@@ -65,3 +67,37 @@ module.exports.editPatch = async (req, res) => {
   const backURL = req.get("Referer");
   res.redirect(backURL);
 };
+
+//[GET] /admin/roles/detail/:id
+module.exports.detail = async (req, res) => {
+  const id = req.params.id;
+
+  let find = {
+    _id: id,
+    deleted: false
+  };
+
+  const role = await Role.findOne(find);
+
+  res.render("admin/pages/roles/detail", {
+    pageTitle: "Chi tiết nhóm quyền",
+    role: role
+  });
+}
+
+//[DELETE] /admin/roles/delete/:id
+module.exports.deleteItem = async (req, res) => {
+  const id = req.params.id;
+
+  await Role.updateOne(
+    { _id: id },
+    {
+      deleted: true,
+      deletedAt: new Date()
+    }
+  );
+
+  req.flash("success", "Đã xóa thành công nhóm quyền");
+  const backURL = req.get("Referer");
+  res.redirect(backURL);
+}
