@@ -90,7 +90,7 @@ if(formChangeMulti) {
     const typeChange = e.target.elements.type.value;
 
     if(typeChange == "delete-all") {
-      const isConfirm = confirm("Bạn có chắc muốn xóa những sản phẩm này ?");
+      const isConfirm = confirm("Bạn có chắc muốn xóa những item này ?");
       if(!isConfirm) {
         return;
       }
@@ -114,7 +114,7 @@ if(formChangeMulti) {
       inputIds.value = ids.join(", ");
       formChangeMulti.submit();
     } else {
-      alert("Vui lòng chọn ít nhất một sản phẩm!");
+      alert("Vui lòng chọn ít nhất một item!");
     }
   });
 }
@@ -206,7 +206,7 @@ if(buttonsRestore.length > 0) {
 
   buttonsRestore.forEach((button) => {
     button.addEventListener("click", () => {
-      const isComfirm = confirm("Bạn có chắc muốn khôi phục lại sản phẩm này ?");
+      const isComfirm = confirm("Bạn có chắc muốn khôi phục lại item này ?");
       if(isComfirm) {
         const id = button.getAttribute("data-id");
         const action = `${path}/${id}?_method=PATCH`;
@@ -224,7 +224,7 @@ const formRestoreMulti = document.querySelector("[form-restore-multi]");
 if(formRestoreMulti) {
   formRestoreMulti.addEventListener("submit", (e) => {
     e.preventDefault();
-    const isComfirm = confirm("Bạn có chắc muốn khôi phục nhiều sản phẩm này không ?");
+    const isComfirm = confirm("Bạn có chắc muốn khôi phục nhiều item này không ?");
     if(isComfirm) {
       const checkboxMulti = document.querySelector("[checkbox-multi]");
       const inputsChecked = checkboxMulti.querySelectorAll("input[name='id']:checked");
@@ -241,7 +241,7 @@ if(formRestoreMulti) {
         formRestoreMulti.submit();
       }
     } else {
-      alert("Vui lòng chọn ít nhất một sản phẩm!");
+      alert("Vui lòng chọn ít nhất một item!");
     }
   });
 }

@@ -170,6 +170,23 @@ module.exports.editPatch = async (req, res) => {
   const backURL = req.get("Referer");
   res.redirect(backURL);
 }
+//[GET] /admin/products-category/detail/:id
+module.exports.detail = async (req, res) => {
+  const id = req.params.id;
+
+  let find = {
+    _id: id,
+    deleted: false
+  };
+
+  const record = await ProductCategory.findOne(find);
+
+  res.render("admin/pages/products-category/detail", {
+    pageTitle: "Chi tiết danh mục sản phẩm",
+    record: record
+  });
+}
+
 
 //[GET] /admin/products-category/trash
 module.exports.trashProductCategory = async (req, res) => {

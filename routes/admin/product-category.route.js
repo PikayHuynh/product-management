@@ -37,12 +37,13 @@ router.patch("/edit/:id",
   controller.editPatch
 );
 
+router.get("/detail/:id", controller.detail);
+
 router.get("/trash", controller.trashProductCategory);
 
 router.patch("/restore/:id", controller.restoreItem);
 
 router.patch("/restore-multi", controller.restoreMulti);
-
 
 
 module.exports = router;
