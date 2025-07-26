@@ -42,7 +42,7 @@ module.exports.createPost = async (req, res) => {
   const role = new Role(req.body);
   await role.save();
   req.flash("success", "Đã thêm mới nhóm quyền thành công");
-  res.redirect(`$${systemConfig.prefixAdmin}/roles`);
+  res.redirect(`${systemConfig.prefixAdmin}/roles`);
 };
 
 //[GET] /admin/roles/edit/:id
@@ -111,6 +111,34 @@ module.exports.deleteItem = async (req, res) => {
   );
 
   req.flash("success", "Đã xóa thành công nhóm quyền");
+  const backURL = req.get("Referer");
+  res.redirect(backURL);
+}
+
+//[GET] /admin/roles/permissions
+module.exports.permissions = async (req, res) => {
+  let find = {
+    deleted: false
+  };
+
+  const records = await Role.find(find); 
+
+  res.render("admin/pages/roles/permissions", {
+    pageTitle: "Chi tiết nhóm quyền",
+    records: records
+  });
+}
+
+//[PATCH] /admin/roles/permissions
+module.exports.permissionsPatch = async (req, res) => {
+
+  const permissions = JSON.parse(req.body.permissions);
+
+  for(const item of permissions) {
+    const { id, permissions } = item;
+    await Role.updateOne( { _id: id }, { permissions: permissions } );
+  }
+  req.flash("success", "Cập nhập phân quyền thành công");
   const backURL = req.get("Referer");
   res.redirect(backURL);
 }

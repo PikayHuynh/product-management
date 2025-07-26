@@ -13,7 +13,7 @@ block main
     method="POST"
     enctype="multipart/form-data"
   )
-    div(class="form-group")
+    div(class="form-control")
       label(for="title") Tiêu đề
       input(
         type="text"
@@ -23,7 +23,7 @@ block main
         required
         value=product.title
       )
-    div(class="form-group")
+    div(class="form-control")
       label(for="product_category_id") Danh mục cha
       select(
         name="product_category_id"
@@ -33,7 +33,7 @@ block main
         option(value="") -- Chọn danh mục cha --
         if(category)
           +select-tree(category, 1, product.product_category_id)
-    div(class="form-group")
+    div(class="form-control")
       label(for="desc") Mô tả
       textarea(
         class="form-control"
@@ -41,7 +41,7 @@ block main
         name="description"
         rows="5"
       ) #{product.description}
-    div(class="form-group")
+    div(class="form-control")
       label(for="price") Giá
       input(
         type="number"
@@ -52,7 +52,7 @@ block main
         min="0"
         step="any"
       )
-    div(class="form-group")
+    div(class="form-control")
       label(for="discount") % Giảm giá
       input(
         type="number"
@@ -63,7 +63,7 @@ block main
         min="0"
         step="any"
       )
-    div(class="form-group")
+    div(class="form-control")
       label(for="stock") Số lượng
       input(
         type="number"
@@ -74,7 +74,7 @@ block main
         min="0"
       )
     div(
-      class="form-group"
+      class="form-control"
       upload-image
     )
       label(for="thumbnail") Ảnh
@@ -96,7 +96,7 @@ block main
         class="btn btn-danger"
         delete-upload-image
       ) Xóa ảnh
-    div(class="form-group")
+    div(class="form-control")
       label(for="position") Vị trí
       input(
         type="number"
@@ -107,7 +107,7 @@ block main
         min="1"
         value=product.position
       )
-    div(class="form-group form-check form-check-inline")
+    div(class="form-control form-check form-check-inline")
       input(
         type="radio"
         class="form-check-input"
@@ -118,7 +118,7 @@ block main
       )
       label(for="statusActive" class="form-check-label") Hoạt động
 
-    div(class="form-group form-check form-check-inline")
+    div(class="form-control form-check form-check-inline")
       input(
         type="radio"
         class="form-check-input"
@@ -128,7 +128,7 @@ block main
         checked=(product.status == "inactive" ? true : false)
       )
       label(for="statusInActive" class="form-check-label") Dừng hoạt động
-    div(class="form-group")
+    div(class="form-control")
       button(
         type="submit"
         class="btn btn-primary"

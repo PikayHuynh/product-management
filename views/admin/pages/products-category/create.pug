@@ -12,7 +12,7 @@ block main
     method="POST"
     enctype="multipart/form-data"
   )
-    div(class="form-group")
+    div(class="form-control")
       label(for="title") Tiêu đề
       input(
         type="text"
@@ -21,7 +21,7 @@ block main
         name="title"
         required
       )
-    div(class="form-group")
+    div(class="form-control")
       label(for="parent_id") Danh mục cha
       select(
         name="parent_id"
@@ -31,7 +31,7 @@ block main
         option(value="") -- Chọn danh mục cha --
         if(records)
           +select-tree(records)
-    div(class="form-group")
+    div(class="form-control")
       label(for="desc") Mô tả
       textarea(
         type="text"
@@ -41,7 +41,7 @@ block main
         rows="5"
       )
     div(
-      class="form-group"
+      class="form-control"
       upload-image
     )
       label(for="thumbnail") Ảnh
@@ -63,7 +63,7 @@ block main
         class="btn btn-danger"
         delete-upload-image
       ) Xóa ảnh
-    div(class="form-group")
+    div(class="form-control")
       label(for="position") Vị trí
       input(
         type="number"
@@ -73,7 +73,7 @@ block main
         placeholder="Tự động tăng"
         min="1"
       )
-    div(class="form-group form-check form-check-inline")
+    div(class="form-control form-check form-check-inline")
       input(
         type="radio"
         class="form-check-input"
@@ -83,7 +83,7 @@ block main
         checked
       )
       label(for="statusActive" class="form-check-label") Hoạt động
-    div(class="form-group form-check form-check-inline")
+    div(class="form-control form-check form-check-inline")
       input(
         type="radio"
         class="form-check-input"
@@ -92,7 +92,7 @@ block main
         value="inactive"
       )
       label(for="statusInActive" class="form-check-label") Dừng hoạt động
-    div(class="form-group")
+    div(class="form-control")
       button(
         type="submit"
         class="btn btn-primary"

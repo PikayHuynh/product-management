@@ -7,7 +7,7 @@ block main
     action=`${prefixAdmin}/roles/create`
     method="POST"
   )
-    div(class="form-group")
+    div(class="form-control")
       label(for="title") Tiêu đề
       input(
         type="text"
@@ -16,7 +16,7 @@ block main
         name="title"
         required
       )
-    div(class="form-group")
+    div(class="form-control")
       label(for="desc") Mô tả
       input(
         type="text"
@@ -24,7 +24,7 @@ block main
         id="desc"
         name="description"
       )
-    div(class="form-group")
+    div(class="form-control")
       button(
         type="submit"
         class="btn btn-primary"
