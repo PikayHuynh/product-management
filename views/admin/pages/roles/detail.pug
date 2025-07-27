@@ -1,13 +1,13 @@
 extends ../../layouts/default.pug
 
 block main 
-  if (role.title)
-    h1(class="mb-4") #{role.title}
+  if (data.title)
+    h1(class="mb-4") #{data.title}
 
-  if (role.description)
-    div(class="mb-4") !{role.description}
+  if (data.description)
+    div(class="mb-4") !{data.description}
 
   a(
-    href=`${prefixAdmin}/roles/edit/${role.id}`
+    href=`${prefixAdmin}/datas/edit/${data.id}`
     class="btn btn-warning"
   ) Chỉnh sửa

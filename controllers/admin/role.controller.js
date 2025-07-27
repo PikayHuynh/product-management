@@ -90,11 +90,11 @@ module.exports.detail = async (req, res) => {
     deleted: false
   };
 
-  const role = await Role.findOne(find);
+  const data = await Role.findOne(find);
 
   res.render("admin/pages/roles/detail", {
     pageTitle: "Chi tiết nhóm quyền",
-    role: role
+    data: data
   });
 }
 
