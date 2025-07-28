@@ -12,7 +12,7 @@ module.exports.index = async (req, res) => {
     deleted: false
   };
 
-  const records = await Account.find(find).select("-password -token");
+  const records = await Account.find(find).select("-password");
   
   for(const record of records) {
     const role = await Role.findOne({

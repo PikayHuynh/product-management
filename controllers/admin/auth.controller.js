@@ -5,6 +5,10 @@ const systemConfig = require("../../config/system");
 const bcrypt = require("bcrypt");
 const salt = bcrypt.genSaltSync(10);
 
+const jwt = require("jsonwebtoken");
+
+const ms = require("ms");
+
 //[GET] /admin/auth/login
 module.exports.login = async (req, res) => {
   res.render("admin/pages/auth/login", {
@@ -43,7 +47,25 @@ module.exports.loginPost = async (req, res) => {
     return;
   }
   
-  res.cookie("token", user.token);
+  //Tạo token jwt
+  const accessTokenLife = process.env.JWT_EXPIRES;
+  const accessTokenSecret = process.env.JWT_SECRET;
+
+  const payload = {
+    id: user._id,
+    role: user.role_id,
+    email: user.email
+  };
+  //encode
+  const accessToken = jwt.sign(payload, accessTokenSecret, {
+    expiresIn: accessTokenLife
+  });
+  
+  res.cookie("token", accessToken, {
+    httpOnly: true,
+    maxAge: ms(accessTokenLife)
+  });
+
   res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
 };
 
