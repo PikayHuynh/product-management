@@ -2,28 +2,58 @@ const systemConfig = require("../../config/system");
 
 require("dotenv").config();
 
-const jwt = require("jsonwebtoken");
+const authTokenHelper = require("../../helpers/authToken");
+
+const ms = require("ms");
+
 const Account = require("../../models/account.model");
 
 module.exports.requireAuth = async (req, res, next) => {
   const token = req.cookies.token;
-  const accessTokenSecret = process.env.JWT_SECRET;
+  const refreshToken = req.cookies.refreshToken; 
+
   if(!token) {
     return res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
   } 
+
   try {
-    //decode
-    const decode = jwt.verify(token, accessTokenSecret);
-    
-    const user = await Account.findOne({ _id: decode.id });
-    
-    if(!user) {
-      return res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
-    } else {
-      next();
-    }
+    const decode = authTokenHelper.verifyAccessToken(token);
+    req.authenticatedAccount = decode;
+    next();
   } catch(error) {
-    res.clearCookie("token");
-    return res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
+
+    if(!refreshToken) {
+      return res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
+    }
+
+    try{
+      const decodeRefresh = authTokenHelper.verifyRefreshToken(refreshToken);
+
+      const user = await Account.findOne({ _id: decodeRefresh.id });
+      
+      if(!user) {
+        res.clearCookie("token");
+        res.clearCookie("refreshToken");
+        return res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
+      } 
+
+      const newAccessToken = authTokenHelper.generateAccessToken({
+        id: user._id,
+        role: user.role_id,
+        email: user.email,
+      });
+
+      res.cookie("token", newAccessToken, {
+        httpOnly: true,
+        maxAge: ms(authTokenHelper.accessTokenLife),
+      });
+
+      req.authenticatedAccount = decodeRefresh;
+      next();
+    } catch(error) {
+      res.clearCookie("token");
+      res.clearCookie("refreshToken");
+      return res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
+    }
   }
-}
+};

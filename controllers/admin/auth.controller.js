@@ -5,7 +5,7 @@ const systemConfig = require("../../config/system");
 const bcrypt = require("bcrypt");
 const salt = bcrypt.genSaltSync(10);
 
-const jwt = require("jsonwebtoken");
+const authTokenHelper = require("../../helpers/authToken");
 
 const ms = require("ms");
 
@@ -53,22 +53,24 @@ module.exports.loginPost = async (req, res) => {
   }
   
   //Tạo token jwt
-  const accessTokenLife = process.env.JWT_EXPIRES;
-  const accessTokenSecret = process.env.JWT_SECRET;
-
   const payload = {
     id: user._id,
     role: user.role_id,
     email: user.email
   };
-  //encode
-  const accessToken = jwt.sign(payload, accessTokenSecret, {
-    expiresIn: accessTokenLife
-  });
   
+  //encode
+  const accessToken = authTokenHelper.generateAccessToken(payload);
+  const refreshToken = authTokenHelper.generateRefreshToken(payload);
+
   res.cookie("token", accessToken, {
     httpOnly: true,
-    maxAge: ms(accessTokenLife)
+    maxAge: ms(authTokenHelper.accessTokenLife)
+  });
+
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    maxAge: ms(authTokenHelper.refreshTokenLife)
   });
 
   res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
@@ -78,5 +80,6 @@ module.exports.loginPost = async (req, res) => {
 module.exports.logout = async (req, res) => {
   // Xóa token
   res.clearCookie("token");
+  res.clearCookie("refreshToken");
   res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
 };
