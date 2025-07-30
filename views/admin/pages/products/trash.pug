@@ -5,81 +5,82 @@ include ../../mixins/alert
 include ../../mixins/form-restore-item
 include ../../mixins/form-restore-multi
 
-block main
-  h1 Danh sách sản phẩm bị xóa
-  +alert-success("5000")
+block 
+  if(role.permissions.includes("products_delete"))
+    h1 Danh sách sản phẩm bị xóa
+    +alert-success("5000")
 
-  .card.mb-3
-    .card-header 
-      .row  
-        .col-6 Tìm kiếm
-        .col-6 
-          +search(keyword)
-      
+    .card.mb-3
+      .card-header 
+        .row  
+          .col-6 Tìm kiếm
+          .col-6 
+            +search(keyword)
+        
 
-    .card-body
-      +form-restore-multi(`${prefixAdmin}/products/restore-multi?_method=PATCH`)
+      .card-body
+        +form-restore-multi(`${prefixAdmin}/products/restore-multi?_method=PATCH`)
 
-      table(
-        class="table table-hover table-sm"
-        checkbox-multi
-      )
-        thead
-          tr  
-            th 
-              input(type="checkbox", name="checkall")
-            th STT
-            th Hình ảnh
-            th Tiêu đề
-            th Giá
-            th Vị trí
-            th Trạng thái
-            th Hành động
-        tbody
-          each item, index in products
+        table(
+          class="table table-hover table-sm"
+          checkbox-multi
+        )
+          thead
             tr  
-              td 
-                input(
-                  type="checkbox"
-                  name="id"
-                  value=item.id
-                )
-              td #{pagination.limitItems * (pagination.currentPage - 1) + (index + 1)}
-              td
-                img(
-                  src=item.thumbnail
-                  alt=item.title
-                  width="100px"
-                  height="auto"
-                )
-              td #{item.title}
-              td #{item.price}$
-              td 
-                input(
-                  type="number"
-                  value=item.position 
-                  style="width: 60px"
-                  min="1"
-                  name="position"
-                )
-              td
-                if(item.status == "active")
-                  a(
-                    class="badge text-bg-success"
-                  ) Hoạt động
-                else 
-                  a(
-                    class="badge text-bg-danger"
-                  ) Dừng hoạt động
-              td
-                button(
-                  class="btn btn-info btn-sm"
-                  button-restore
-                  data-id=item.id
-                ) Khôi phục
+              th 
+                input(type="checkbox", name="checkall")
+              th STT
+              th Hình ảnh
+              th Tiêu đề
+              th Giá
+              th Vị trí
+              th Trạng thái
+              th Hành động
+          tbody
+            each item, index in products
+              tr  
+                td 
+                  input(
+                    type="checkbox"
+                    name="id"
+                    value=item.id
+                  )
+                td #{pagination.limitItems * (pagination.currentPage - 1) + (index + 1)}
+                td
+                  img(
+                    src=item.thumbnail
+                    alt=item.title
+                    width="100px"
+                    height="auto"
+                  )
+                td #{item.title}
+                td #{item.price}$
+                td 
+                  input(
+                    type="number"
+                    value=item.position 
+                    style="width: 60px"
+                    min="1"
+                    name="position"
+                  )
+                td
+                  if(item.status == "active")
+                    a(
+                      class="badge text-bg-success"
+                    ) Hoạt động
+                  else 
+                    a(
+                      class="badge text-bg-danger"
+                    ) Dừng hoạt động
+                td
+                  button(
+                    class="btn btn-info btn-sm"
+                    button-restore
+                    data-id=item.id
+                  ) Khôi phục
 
-  +pagination(pagination)
+    +pagination(pagination)
 
-  +form-restore-item(`${prefixAdmin}/products/restore`)
+    +form-restore-item(`${prefixAdmin}/products/restore`)
 
-  script(src="/admin/js/product.js") 
+    script(src="/admin/js/product.js") 
