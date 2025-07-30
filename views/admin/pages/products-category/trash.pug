@@ -5,7 +5,7 @@ include ../../mixins/pagination
 include ../../mixins/form-restore-item
 include ../../mixins/form-restore-multi
 
-block 
+block main
   if(role.permissions.includes("products-category_delete"))
     +alert-success("5000")
     +alert-error("5000")

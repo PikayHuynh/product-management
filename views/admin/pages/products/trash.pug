@@ -5,7 +5,7 @@ include ../../mixins/alert
 include ../../mixins/form-restore-item
 include ../../mixins/form-restore-multi
 
-block 
+block main
   if(role.permissions.includes("products_delete"))
     h1 Danh sách sản phẩm bị xóa
     +alert-success("5000")
