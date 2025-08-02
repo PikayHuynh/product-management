@@ -23,15 +23,34 @@ block main
           required
         )
       div(class="form-control")
-        label(for="product_category_id") Danh mục cha
+        label(for="product_category_id") Danh mục
         select(
           name="product_category_id"
           id="product_category_id"
           class="form-select"
         )
-          option(value="") -- Chọn danh mục cha --
+          option(value="") -- Chọn danh mục --
           if(category)
             +select-tree(category)
+      div(class="form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="featured1"
+          name="featured"
+          value="1"
+        )
+        label(for="featured1" class="form-check-label") Nổi bật
+      div(class="form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="featured0"
+          name="featured"
+          value="0"
+          checked
+        )
+        label(for="featured0" class="form-check-label") Không nổi bật
       div(class="form-control")
         label(for="desc") Mô tả
         textarea(
