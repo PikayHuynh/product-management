@@ -54,18 +54,20 @@ module.exports.requireAuth = async (req, res, next) => {
 
       const role = await Role.findOne({ _id: user.role_id }).select("title permissions");
 
-      const newAccessToken = authTokenHelper.generateAccessToken({
+      const payload = {
         id: user._id,
         role: user.role_id,
         email: user.email,
-      });
+      };
+
+      const newAccessToken = authTokenHelper.generateAccessToken(payload);
 
       res.cookie("token", newAccessToken, {
         httpOnly: true,
         maxAge: ms(authTokenHelper.accessTokenLife),
       });
 
-      req.authenticatedAccount = decodeRefresh;
+      req.authenticatedAccount = payload;
 
       res.locals.user = user;
       res.locals.role = role;
