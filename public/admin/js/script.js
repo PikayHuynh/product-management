@@ -206,8 +206,8 @@ if(buttonsRestore.length > 0) {
 
   buttonsRestore.forEach((button) => {
     button.addEventListener("click", () => {
-      const isComfirm = confirm("Bạn có chắc muốn khôi phục lại item này ?");
-      if(isComfirm) {
+      const isConfirm = confirm("Bạn có chắc muốn khôi phục lại item này ?");
+      if(isConfirm) {
         const id = button.getAttribute("data-id");
         const action = `${path}/${id}?_method=PATCH`;
 
@@ -224,8 +224,8 @@ const formRestoreMulti = document.querySelector("[form-restore-multi]");
 if(formRestoreMulti) {
   formRestoreMulti.addEventListener("submit", (e) => {
     e.preventDefault();
-    const isComfirm = confirm("Bạn có chắc muốn khôi phục nhiều item này không ?");
-    if(isComfirm) {
+    const isConfirm = confirm("Bạn có chắc muốn khôi phục nhiều item này không ?");
+    if(isConfirm) {
       const checkboxMulti = document.querySelector("[checkbox-multi]");
       const inputsChecked = checkboxMulti.querySelectorAll("input[name='id']:checked");
       console.log(inputsChecked);

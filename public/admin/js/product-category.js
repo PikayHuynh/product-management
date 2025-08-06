@@ -25,8 +25,8 @@ if(buttonsDelete.length > 0) {
   const path = formDeleteItem.getAttribute("data-path");
   buttonsDelete.forEach(button => {
     button.addEventListener("click", () => {
-      const isComfirm = confirm("Bạn có chắc muốn xóa danh mục sản phẩm này ?");
-      if(isComfirm) {
+      const isConfirm = confirm("Bạn có chắc muốn xóa danh mục sản phẩm này ?");
+      if(isConfirm) {
         const id = button.getAttribute("data-id");
         const action = `${path}/${id}?_method=DELETE`;
         formDeleteItem.action = action;

@@ -6,9 +6,9 @@ if(buttonsDelete.length > 0) {
 
   buttonsDelete.forEach((button) => {
     button.addEventListener("click", () => {
-      const isComfirm = confirm("Bạn có chắc muốn xóa nhóm quyền này này ?");
+      const isConfirm = confirm("Bạn có chắc muốn xóa nhóm quyền này này ?");
 
-      if(isComfirm) {
+      if(isConfirm) {
         const id = button.getAttribute("data-id");
 
         const action = `${path}/${id}?_method=DELETE`;
@@ -59,7 +59,7 @@ if(tablePermissions) {
     }
   });
 }
-// End Ppermissions
+// End Permissions
 
 // Permissions Data Default
 const dataRecords = document.querySelector("[data-records]");
