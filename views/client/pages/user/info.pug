@@ -1,0 +1,20 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+  .container.my-3 
+    .row 
+      .col-12 
+        +box-head("Thông tin tài khoản")
+
+      .col-12
+        .card
+          .card-body
+            h5.card-title Thông tin chi tiết
+            ul.list-group.list-group-flush
+              li.list-group-item
+                strong Họ và tên: 
+                span= infoUser.fullName
+              li.list-group-item
+                strong Email: 
+                span= infoUser.email
