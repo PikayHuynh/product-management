@@ -253,16 +253,7 @@ module.exports.resetPasswordPost = async (req, res) => {
 
 //[GET] /user/info
 module.exports.info = async (req, res) => {
-  const decode = authTokenHelper.verifyAccessToken(req.cookies.tokenUser);
-
-  const infoUser = await User.findOne({
-    email: decode.email
-  }).select("-password");
-
-  console.log(infoUser);
-  
   res.render("client/pages/user/info", {
     pageTitle: "Thông tin tài khoản",
-    infoUser: infoUser
   });
 }
