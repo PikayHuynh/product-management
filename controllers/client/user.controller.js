@@ -1,5 +1,6 @@
 const User = require("../../models/user.model");
 const ForgotPassword = require("../../models/forgot-password.model");
+const Cart = require("../../models/cart.model");
 
 const bcrypt = require("bcrypt");
 const salt = bcrypt.genSaltSync(10);
@@ -114,6 +115,12 @@ module.exports.loginPost = async (req, res) => {
     maxAge: ms(authTokenHelper.refreshTokenLife)
   });
   
+  await Cart.updateOne({
+    _id: req.cookies.cartId
+  }, {
+    user_id: user.id
+  });
+
   res.redirect("/");
 };
 
